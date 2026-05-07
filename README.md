@@ -34,14 +34,20 @@ AssetFlow is a full-stack web application for managing digital asset vendors and
 
 <div align="center">
 
-| | |
-|---|---|
-| **Dashboard** | **Vendor Details** |
-| <img src="https://github.com/user-attachments/assets/d512b17e-e169-47b9-8dac-c67c9c2e0397" width="100%"/> | <img src="https://github.com/user-attachments/assets/294fe2b4-bbab-433b-8713-ca69472ff09f" width="100%"/> |
-| **Add Vendor** | **Edit Vendor** |
-| <img src="https://github.com/user-attachments/assets/cd93d014-731c-48b5-b82e-ffefe69208e0" width="100%"/> | <img src="https://github.com/user-attachments/assets/44afef6d-036e-4935-a3ed-5ea6941a7c73" width="100%"/> |
-| **Categories** | **Add Category** |
-| <img src="https://github.com/user-attachments/assets/a9536b79-3011-444d-9206-cfa5634aadfa" width="100%"/> | <img src="https://github.com/user-attachments/assets/4aaca428-ace8-4863-b4aa-d275acee94fe" width="100%"/> |
+<table>
+<tr>
+<td align="center"><b>Dashboard</b><br/><img src="https://github.com/user-attachments/assets/d512b17e-e169-47b9-8dac-c67c9c2e0397" width="100%"/></td>
+<td align="center"><b>Vendor Details</b><br/><img src="https://github.com/user-attachments/assets/294fe2b4-bbab-433b-8713-ca69472ff09f" width="100%"/></td>
+</tr>
+<tr>
+<td align="center"><b>Add Vendor</b><br/><img src="https://github.com/user-attachments/assets/cd93d014-731c-48b5-b82e-ffefe69208e0" width="100%"/></td>
+<td align="center"><b>Edit Vendor</b><br/><img src="https://github.com/user-attachments/assets/44afef6d-036e-4935-a3ed-5ea6941a7c73" width="100%"/></td>
+</tr>
+<tr>
+<td align="center"><b>Categories</b><br/><img src="https://github.com/user-attachments/assets/a9536b79-3011-444d-9206-cfa5634aadfa" width="100%"/></td>
+<td align="center"><b>Add Category</b><br/><img src="https://github.com/user-attachments/assets/4aaca428-ace8-4863-b4aa-d275acee94fe" width="100%"/></td>
+</tr>
+</table>
 
 </div>
 
