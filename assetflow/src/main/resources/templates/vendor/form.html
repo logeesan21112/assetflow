@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${vendor.id == null ? 'Add Vendor' : 'Edit Vendor'} + ' | AssetFlow'">AssetFlow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #ffffff;
+            --bg-hover: #f9fafb;
+            --text-main: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --border-focus: #111827;
+            --btn-primary: #111827;
+            --btn-primary-hover: #374151;
+            --danger: #dc2626;
+            --nav-height: 64px;
+            --max-width: 700px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.2s; }
+
+        .container { max-width: var(--max-width); margin: 0 auto; width: 100%; padding: 0 24px; }
+
+        .navbar {
+            height: var(--nav-height);
+            background: var(--bg-body);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-content { height: 100%; display: flex; align-items: center; justify-content: space-between; }
+
+        .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.1rem; }
+
+        .nav-links { display: flex; gap: 24px; }
+
+        .nav-link { font-size: 0.9rem; font-weight: 500; color: var(--text-secondary); }
+
+        main { padding: 40px 0 80px 0; }
+
+        .page-header { margin-bottom: 32px; }
+
+        .page-title { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 8px; }
+
+        .page-subtitle { color: var(--text-secondary); font-size: 0.95rem; }
+
+        .form-card { border: 1px solid var(--border-color); padding: 40px; border-radius: 0; background: #fff; }
+
+        .form-group { margin-bottom: 24px; }
+
+        label { display: block; margin-bottom: 8px; font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
+
+        .form-control {
+            width: 100%;
+            background: #fff;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 12px 14px;
+            font-size: 0.95rem;
+            outline: none;
+            border-radius: 0;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus { border-color: var(--border-focus); }
+
+        select.form-control {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.75rem center;
+            background-repeat: no-repeat;
+            background-size: 1.8em 1.8em;
+            padding-right: 2.2em;
+        }
+
+        .error-msg { color: var(--danger); font-size: 0.8rem; margin-top: 6px; display: none; }
+        .error-msg.visible { display: block; }
+
+        .upload-container {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 0;
+            background: #fafafa;
+        }
+
+        .image-preview-wrapper {
+            width: 80px;
+            height: 80px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--border-color);
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+        }
+
+        .image-preview-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+
+        .upload-label { flex-grow: 1; cursor: pointer; }
+
+        .upload-text { font-size: 0.9rem; font-weight: 500; color: var(--text-main); }
+
+        .upload-subtext { font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px; }
+
+        #fileImage { display: none; }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: var(--btn-primary);
+            color: white;
+            border: none;
+            border-radius: 0;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 32px;
+        }
+
+        .btn-submit:hover { background: var(--btn-primary-hover); }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="/" class="brand">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                    <polyline points="2 17 12 22 22 17"></polyline>
+                    <polyline points="2 12 12 17 22 12"></polyline>
+                </svg>
+                AssetFlow
+            </a>
+            <div class="nav-links">
+                <a href="/" class="nav-link active">Dashboard</a>
+                <a href="/categories" class="nav-link">Categories</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <header class="page-header">
+            <h1 class="page-title" th:text="${vendor.id == null ? 'Add new Vendor' : 'Edit Vendor'}">Add new Vendor</h1>
+            <p class="page-subtitle">Enter the vendor details below to manage your digital assets.</p>
+        </header>
+
+        <div class="form-card">
+            <form th:action="@{/save}" th:method="POST" th:object="${vendor}" enctype="multipart/form-data">
+
+                <input type="hidden" th:field="*{id}">
+
+                <div class="form-group">
+                    <label for="vendorName">Vendor Name</label>
+                    <input type="text" id="vendorName" th:field="*{vendorName}" class="form-control" placeholder="e.g. PolyForge Studios">
+                    <div th:if="${#fields.hasErrors('vendorName')}" th:errors="*{vendorName}" class="error-msg visible">Name is required</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" th:field="*{category.id}" class="form-control">
+                        <option value="" disabled
+                            th:text="${vendor.category == null} ? 'Select a category...' : ''"
+                            th:selected="${vendor.category == null}">
+                            Select a category...
+                        </option>
+                        <option th:each="cat : ${categoryList}"
+                                th:value="${cat.id}"
+                                th:text="${cat.name}"
+                                th:selected="${vendor.category != null} ? ${cat.id} == ${vendor.category.id} : false">
+                        </option>
+                    </select>
+                    <div th:if="${#fields.hasErrors('category')}" th:errors="*{category}" class="error-msg visible">Category is required</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Business Email</label>
+                    <input type="email" id="email" th:field="*{email}" class="form-control" placeholder="contact@vendor.com">
+                    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error-msg visible">Valid email is required</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Contact Number</label>
+                    <input type="text" id="phone" th:field="*{phone}" class="form-control" placeholder="+940000000">
+                </div>
+
+                <div class="form-group">
+                    <label>Vendor Logo</label>
+                    <div class="upload-container">
+                        <div class="image-preview-wrapper" id="previewWrapper">
+                            <span id="placeholderIcon" style="font-size: 24px;">+</span>
+                            <img id="previewImage" alt="Vendor Logo"
+                                 th:attr="data-existing=@{${vendor.photosImagePath}}"
+                                 style="display:none;">
+                        </div>
+                        <label for="fileImage" class="upload-label">
+                            <div class="upload-text" id="uploadBtnText">Upload Photo</div>
+                            <div class="upload-subtext">PNG, JPG up to 1MB</div>
+                        </label>
+                        <input type="file" id="fileImage" name="image" accept="image/png, image/jpeg">
+                    </div>
+                    <div id="imageError" class="error-msg">File size exceeds 1MB. Please upload a smaller file.</div>
+                </div>
+
+                <button type="submit" class="btn-submit" th:text="${vendor.id == null ? 'Create Vendor' : 'Save Changes'}">Create Vendor</button>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const fileInput = document.getElementById('fileImage');
+            const previewImage = document.getElementById('previewImage');
+            const placeholderIcon = document.getElementById('placeholderIcon');
+            const errorMsg = document.getElementById('imageError');
+            const uploadBtnText = document.getElementById('uploadBtnText');
+            const MAX_SIZE = 1048576;
+
+            const existingPhoto = previewImage.getAttribute('data-existing');
+            if (existingPhoto && existingPhoto !== '' && existingPhoto !== '/images/avatar-default.jpg') {
+                previewImage.src = existingPhoto;
+                previewImage.style.display = 'block';
+                placeholderIcon.style.display = 'none';
+                uploadBtnText.innerText = 'Change Photo';
+            }
+
+            fileInput.addEventListener('change', function (e) {
+                errorMsg.classList.remove('visible');
+                const file = e.target.files[0];
+                if (file) {
+                    if (file.size > MAX_SIZE) {
+                        errorMsg.classList.add('visible');
+                        fileInput.value = '';
+                        resetPreview();
+                        return;
+                    }
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        previewImage.src = e.target.result;
+                        previewImage.style.display = 'block';
+                        placeholderIcon.style.display = 'none';
+                        uploadBtnText.innerText = 'Change Photo';
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    resetPreview();
+                }
+            });
+
+            function resetPreview() {
+                previewImage.src = '';
+                previewImage.style.display = 'none';
+                placeholderIcon.style.display = 'block';
+                uploadBtnText.innerText = 'Upload Photo';
+            }
+        });
+    </script>
+</body>
+</html>

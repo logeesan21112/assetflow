@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title th:text="${category.id == null ? 'Add Category' : 'Edit Category'} + ' | AssetFlow'">AssetFlow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #ffffff;
+            --bg-hover: #f9fafb;
+            --text-main: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --border-focus: #111827;
+            --btn-primary: #111827;
+            --btn-primary-hover: #374151;
+            --danger: #dc2626;
+            --nav-height: 64px;
+            --max-width: 700px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.2s;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 24px;
+        }
+
+        .navbar {
+            height: var(--nav-height);
+            background: var(--bg-body);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-content {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-link {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .nav-link:hover {
+            color: var(--text-main);
+        }
+
+        main {
+            padding: 40px 0 80px 0;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .form-card {
+            border: 1px solid var(--border-color);
+            padding: 40px;
+            background: #fff;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            background: #fff;
+            border: 1px solid var(--border-color);
+            padding: 12px 14px;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--border-focus);
+        }
+
+        .error-msg {
+            color: var(--danger);
+            font-size: 0.8rem;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .error-msg.visible {
+            display: block;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: var(--btn-primary);
+            color: white;
+            border: none;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 32px;
+        }
+
+        .btn-submit:hover {
+            background: var(--btn-primary-hover);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="/" class="brand">AssetFlow</a>
+            <div class="nav-links">
+                <a href="/" class="nav-link">Dashboard</a>
+                <a href="/categories" class="nav-link active">Categories</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <header class="page-header">
+            <h1 class="page-title" th:text="${category.id == null ? 'Add New Category' : 'Edit Category'}">Add New Category</h1>
+            <p class="page-subtitle">Enter the category details below.</p>
+        </header>
+
+        <div class="form-card">
+            <form th:action="@{/categories/save}" th:method="POST" th:object="${category}">
+                <input type="hidden" th:field="*{id}">
+
+                <div class="form-group">
+                    <label for="name">Category Name</label>
+                    <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="e.g. 3D Models">
+                    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-msg visible">Name is required</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" th:field="*{description}" class="form-control" rows="4" placeholder="Optional description"></textarea>
+                    <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="error-msg visible">Description is required</div>
+                </div>
+				
+				<div th:if="${duplicateError}" style="
+				    color: #dc2626;
+				    font-size: 0.85rem;
+				    padding: 10px 14px;
+				    border: 1px solid #fca5a5;
+				    background: #fef2f2;
+				    margin-bottom: 16px;">
+				    <span th:text="${duplicateError}"></span>
+				</div>
+
+				<button type="submit" class="btn-submit" th:text="${category.id == null ? 'Add Category' : 'Save Changes'}">Add Category</button>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

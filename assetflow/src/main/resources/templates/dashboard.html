@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AssetFlow | Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --bg-body: #ffffff;
+            --bg-hover: #f9fafb;
+            --text-main: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --btn-view-bg: #059669;
+            --btn-view-hover: #047857;
+            --btn-edit-bg: #2563eb;
+            --btn-edit-hover: #1d4ed8;
+            --btn-delete-bg: #dc2626;
+            --btn-delete-hover: #b91c1c;
+            --btn-primary: #111827;
+            --btn-primary-hover: #374151;
+            --max-width: 1200px;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 24px;
+            width: 100%;
+        }
+        
+        .navbar {
+            height: 64px;
+            background: #fff;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .brand {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+        
+        .nav-link {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
+        .nav-link.active {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 32px 0;
+        }
+        
+        .page-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            border-radius: 6px;
+            transition: 0.2s;
+        }
+        
+        .btn-primary {
+            background-color: var(--btn-primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--btn-primary-hover);
+        }
+        
+        .table-wrapper {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .table-responsive {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 14px 24px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        th {
+            font-weight: 600;
+            color: var(--text-secondary);
+            background-color: var(--bg-hover);
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        tr:hover td {
+            background-color: var(--bg-hover);
+        }
+        
+        .vendor-cell {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        
+        .vendor-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--border-color);
+        }
+        
+        .vendor-info .name {
+            font-weight: 600;
+            display: block;
+            color: var(--text-main);
+        }
+        
+        .vendor-info .email {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            display: block;
+            margin-top: 2px;
+        }
+        
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 4px;
+            background-color: #f3f4f6;
+            color: #374151;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .action-cell {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+        
+        .btn-action {
+            padding: 6px 14px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: white;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            transition: 0.2s;
+        }
+        
+        .btn-view {
+            background-color: var(--btn-view-bg);
+        }
+        
+        .btn-view:hover {
+            background-color: var(--btn-view-hover);
+        }
+        
+        .btn-edit {
+            background-color: var(--btn-edit-bg);
+        }
+        
+        .btn-edit:hover {
+            background-color: var(--btn-edit-hover);
+        }
+        
+        .btn-delete {
+            background-color: var(--btn-delete-bg);
+        }
+        
+        .btn-delete:hover {
+            background-color: var(--btn-delete-hover);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="#" class="brand">AssetFlow</a>
+            <div class="nav-links">
+                <a th:href="@{/}" class="nav-link active">Dashboard</a>
+                <a th:href="@{/categories}" class="nav-link">Categories</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+		<div th:if="${message}" style="
+		    background: #f0fdf4;
+		    border: 1px solid #bbf7d0;
+		    color: #15803d;
+		    padding: 12px 20px;
+		    margin-bottom: 20px;
+		    font-size: 0.9rem;
+		    font-weight: 500;"
+		    th:text="${message}">
+		</div>
+        <header class="page-header">
+            <h1 class="page-title">Digital Vendors</h1>
+            <a th:href="@{/create}" class="btn btn-primary">Add Vendor</a>
+        </header>
+
+        <div class="table-wrapper">
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 80px;">ID</th>
+                            <th>Vendor Details</th>
+                            <th>Categories</th>
+                            <th>Email Address</th>
+                            <th>Phone</th>
+                            <th style="text-align:right; width:260px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="vendor : ${vendorList}">
+                            <td th:text="${vendor.id}"></td>
+                            <td>
+                                <div class="vendor-cell">
+                                    <img th:src="@{${vendor.photosImagePath}}" class="vendor-logo" alt="Logo">
+                                    <div class="vendor-info">
+                                        <span class="name" th:text="${vendor.vendorName}"></span>
+                                        <span class="email" th:text="${vendor.email}"></span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge"
+                                      th:class="'badge-' + ${#strings.toLowerCase(vendor.category.name)}"
+                                      th:text="${vendor.category.name}">
+                                </span>
+                            </td>
+                            <td th:text="${vendor.email}"></td>
+                            <td th:text="${vendor.phone}"></td>
+                            <td>
+                                <div class="action-cell">
+                                    <a th:href="@{/vendor/{id}(id=${vendor.id})}" class="btn-action btn-view">View</a>
+                                    <a th:href="@{/vendor/{id}/edit(id=${vendor.id})}" class="btn-action btn-edit">Edit</a>
+                                    <a th:href="@{/vendor/{id}/delete(id=${vendor.id})}" class="btn-action btn-delete">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

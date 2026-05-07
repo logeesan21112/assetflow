@@ -1,0 +1,34 @@
+# Eclipse workspace
+.metadata/
+
+# LinkedIn carousel (separate project)
+linkedin carousel/
+
+# Maven
+assetflow/target/
+!assetflow/.mvn/wrapper/maven-wrapper.jar
+
+# Eclipse IDE files
+assetflow/.classpath
+assetflow/.project
+assetflow/.settings/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Vendor photos (uploaded content)
+assetflow/vendor-photos/
+
+# Compiled classes
+*.class
+*.jar
+*.war
