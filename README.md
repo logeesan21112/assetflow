@@ -105,7 +105,6 @@ assetflow/
 │   │       │   └── dashboard.html
 │   │       └── application.properties
 │   └── test/
-├── screenshots/
 ├── pom.xml
 └── README.md
 ```
