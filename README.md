@@ -30,6 +30,73 @@ AssetFlow is a full-stack web application for managing digital asset vendors and
 
 ---
 
+## Tech Stack
+
+**Backend**
+- Java 17
+- Spring Boot 3.3.6
+- Spring Data JPA and Hibernate
+- Spring Validation
+- Maven
+
+**Frontend**
+- Thymeleaf
+- HTML5 and CSS3
+- JavaScript (vanilla)
+- Inter (Google Fonts)
+
+**Database**
+- MySQL 8
+
+---
+
+## Getting Started
+
+### Prerequisites
+- Java 17+
+- MySQL 8+
+- Maven 3.8+
+
+### Database Setup
+
+1. Open MySQL and create the database
+```sql
+CREATE DATABASE digital_vendors;
+```
+
+2. Open `src/main/resources/application.properties` and update your database credentials
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/digital_vendors
+spring.datasource.username=YOUR_USERNAME
+spring.datasource.password=YOUR_PASSWORD
+```
+
+3. The tables will be created automatically when you run the application
+
+### Run the Application
+
+1. Clone the repository
+```
+git clone https://github.com/logeesan21112/assetflow.git
+```
+
+2. Navigate to the project folder
+```
+cd assetflow
+```
+
+3. Run with Maven
+```
+mvnw spring-boot:run
+```
+
+4. Open in your browser
+```
+http://localhost:8080
+```
+
+---
+
 ## Screenshots
 
 <div align="center">
@@ -65,111 +132,25 @@ AssetFlow is a full-stack web application for managing digital asset vendors and
 
 ---
 
-## Tech Stack
+## Academic Info
 
-**Backend**
-- Java 17
-- Spring Boot 3.3.6
-- Spring Data JPA and Hibernate
-- Spring Validation
-- Maven
-
-**Frontend**
-- Thymeleaf
-- HTML5 and CSS3
-- JavaScript (vanilla)
-- Inter (Google Fonts)
-
-**Database**
-- MySQL 8
+| Field | Detail |
+|---|---|
+| Module Code | TICT4233 |
+| Module Name | e-Commerce |
+| Type | Assignment |
 
 ---
 
-## Project Structure
+## References
 
-```
-assetflow/
-├── src/
-│   ├── main/
-│   │   ├── java/com/group8/assetflow/
-│   │   │   ├── controller/
-│   │   │   │   ├── CategoryController.java
-│   │   │   │   └── DigitalVendorController.java
-│   │   │   ├── exception/
-│   │   │   │   └── CategoryAlreadyExistsException.java
-│   │   │   ├── model/
-│   │   │   │   ├── Category.java
-│   │   │   │   └── DigitalVendor.java
-│   │   │   ├── repository/
-│   │   │   │   ├── CategoryRepository.java
-│   │   │   │   └── DigitalVendorRepository.java
-│   │   │   ├── service/
-│   │   │   │   ├── CategoryService.java
-│   │   │   │   ├── DigitalVendorService.java
-│   │   │   │   └── FileUploadService.java
-│   │   │   ├── MvcConfig.java
-│   │   │   └── AssetflowApplication.java
-│   │   └── resources/
-│   │       ├── templates/
-│   │       │   ├── vendor/
-│   │       │   │   ├── form.html
-│   │       │   │   └── details.html
-│   │       │   ├── category/
-│   │       │   │   ├── form.html
-│   │       │   │   └── categories.html
-│   │       │   └── dashboard.html
-│   │       └── application.properties
-│   └── test/
-├── pom.xml
-└── README.md
-```
+This project was built using a YouTube tutorial as a learning reference. The concept and architecture were studied from the tutorial and rebuilt with significant modifications including renamed classes, tables, project structure, and additional features.
 
----
-
-## Getting Started
-
-### Prerequisites
-- Java 17+
-- MySQL 8+
-- Maven 3.8+
-
-### Database Setup
-
-1. Open MySQL and create the database
-```sql
-CREATE DATABASE digital_vendors;
-```
-
-2. Open `src/main/resources/application.properties` and update your database credentials
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/digital_vendors
-spring.datasource.username=YOUR_USERNAME
-spring.datasource.password=YOUR_PASSWORD
-```
-
-3. The tables will be created automatically when you run the application
-
-### Run the Application
-
-1. Clone the repository
-```
-git clone https://github.com/YOUR_USERNAME/assetflow.git
-```
-
-2. Navigate to the project folder
-```
-cd assetflow
-```
-
-3. Run with Maven
-```
-mvnw spring-boot:run
-```
-
-4. Open in your browser
-```
-http://localhost:8080
-```
+| Type | Link |
+|------|------|
+| 📺 YouTube Channel | [LearnWithIfte](https://www.youtube.com/@LearnWithIfte) |
+| 🎬 YouTube Video | [Spring Boot 3 Full-Stack Web App Tutorial: From Setup to CRUD Operations](https://www.youtube.com/watch?v=C12_XykFevQ) |
+| 🐙 GitHub Reference | [spring-boot-crud by learnwithiftekhar](https://github.com/learnwithiftekhar/spring-boot-crud) |
 
 ---
 
